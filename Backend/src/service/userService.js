@@ -46,34 +46,33 @@ const login = async (userData) => {
     }
 }
 
-const findUserById = async () => {
+const getAllUsers = async () => {
     try {
-        const users = await User.find();
+        const users = await User.find({}, "-password"); 
         if (users.length === 0) {
-            throw new Error("There are no users in the database!");
+            throw new Error("No users found!");
         }
         return users;
     } catch (error) {
-        throw new Error(`Error fetching users:, ${error.message}`);
+        throw new Error(`Error fetching users: ${error.message}`);
     }
 };
 
 const getUserById = async (id) => {
-    try{
-        const user = await User.findById(id);
-        if(!user){
-            throw new Error("user not found!");
+    try {
+        const user = await User.findById(id, "-password"); 
+        if (!user) {
+            throw new Error("User not found!");
         }
-
         return user;
-    } catch(error) {
-        throw new Error(`error fetching user: ${error.message}`);
+    } catch (error) {
+        throw new Error(`Error fetching user: ${error.message}`);
     }
-}
+};
 
 module.exports = {
     registerUser,
     login,
-    findUserById,
+    getAllUsers,
     getUserById
 }

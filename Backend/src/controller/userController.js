@@ -6,7 +6,7 @@ const register = async (req, res) => {
         if (req.user.role !== "ROLE_ADMIN") {
             return res.status(403).json({ message: "Only admins can register users!" });
         }
-        
+
         if (!req.user) {
             return res.status(401).json({ message: "Unauthorized access" });
         }
@@ -31,26 +31,26 @@ const loginUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await userService.findUserById();
-        return res.status(200).json({ message: "All users in database", users });
+        const users = await userService.getAllUsers();
+        return res.status(200).json({ message: "All users fetched successfully!", users });
     } catch (error) {
-        return res.status(500).json({ message: error.message }); 
+        return res.status(500).json({ message: error.message });
     }
 };
 
-const getUserByIds = async (req, res) => {
+const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
         const user = await userService.getUserById(id);
-        return res.status(201).json({message: "User information", user});
-    } catch(error) {
-        return res.status(500).json({ message: error.message});
+        return res.status(200).json({ message: "User details fetched successfully!", user });
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
     }
-}
+};
 
 module.exports = {
     register,
     loginUser,
     getAllUsers,
-    getUserByIds
+    getUserById
 }
